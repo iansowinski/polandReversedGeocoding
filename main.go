@@ -54,9 +54,9 @@ type geoPolygonWithId struct {
 }
 
 func Create() poland {
-	wojewodztwa, _ := shp.Open("geohelper/data/wojewodztwa.shp")
-	powiaty, _ := shp.Open("geohelper/data/powiaty.shp")
-	gminy, _ := shp.Open("geohelper/data/gminy.shp")
+	wojewodztwa, _ := shp.Open("data/wojewodztwa.shp")
+	powiaty, _ := shp.Open("data/powiaty.shp")
+	gminy, _ := shp.Open("data/gminy.shp")
 	return poland{createPolygonsMap(wojewodztwa), createPolygonsMap(powiaty), createPolygonsMap(gminy)}
 }
 
