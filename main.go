@@ -37,15 +37,19 @@ import (
 )
 
 type poland struct {
-	wojewodztwa []*geoPolygonWithId
-	powiaty     []*geoPolygonWithId
-	gminy       []*geoPolygonWithId
+	wojewodztwa          []*geoPolygonWithId
+	powiaty              []*geoPolygonWithId
+	gminy                []*geoPolygonWithId
+	jednostkiEwidencyjne []*geoPolygonWithId
+	obrebyEwidencyjne    []*geoPolygonWithId
 }
 
 type pointInfo struct {
-	Wojewodztwo string
-	Powiat      string
-	Gmina       string
+	Wojewodztwo          string
+	Powiat               string
+	Gmina                string
+	JednostkaEwidencyjna string
+	ObrebEwidencyjny     string
 }
 
 type geoPolygonWithId struct {
@@ -57,11 +61,13 @@ func Create() poland {
 	wojewodztwa, _ := shp.Open("data/wojewodztwa.shp")
 	powiaty, _ := shp.Open("data/powiaty.shp")
 	gminy, _ := shp.Open("data/gminy.shp")
-	return poland{createPolygonsMap(wojewodztwa), createPolygonsMap(powiaty), createPolygonsMap(gminy)}
+	obrebyEwidencyjne, _ := shp.Open("data/obreby_ewidencyjne.shp")
+	jednostkiEwidencyjne, _ := shp.Open("data/jednostki_ewidencyjne.shp")
+	return poland{createPolygonsMap(wojewodztwa), createPolygonsMap(powiaty), createPolygonsMap(gminy), createPolygonsMap(jednostkiEwidencyjne), createPolygonsMap(obrebyEwidencyjne)}
 }
 
 func GetInfo(p poland, lat float64, lng float64) pointInfo {
-	return pointInfo{getName(p.wojewodztwa, lat, lng), getName(p.powiaty, lat, lng), getName(p.gminy, lat, lng)}
+	return pointInfo{getName(p.wojewodztwa, lat, lng), getName(p.powiaty, lat, lng), getName(p.gminy, lat, lng), getName(p.jednostkiEwidencyjne, lat, lng), getName(p.obrebyEwidencyjne, lat, lng)}
 }
 
 func getName(polygons []*geoPolygonWithId, latInput float64, lngInput float64) string {
